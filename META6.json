@@ -1,0 +1,25 @@
+{
+  "auth": "zef:kjpye",
+  "authors": [
+    "Kevin Pye"
+  ],
+  "build-depends": [
+  ],
+  "depends": [
+  ],
+  "description": "blah blah blah",
+  "license": "Artistic-2.0",
+  "name": "Geo::WellKnownBinary",
+  "perl": "6.d",
+  "provides": {
+    "Geo::WellKnownBinary": "lib/Geo/WellKnownBinary.rakumod"
+  },
+  "resources": [
+  ],
+  "source-url": "",
+  "tags": [
+  ],
+  "test-depends": [
+  ],
+  "version": "0.0.1"
+}
