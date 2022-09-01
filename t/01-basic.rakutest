@@ -1,6 +1,36 @@
 use Test;
+use lib 'lib';
+
+use Geo::Geometry;
 use Geo::WellKnownBinary;
 
-pass "replace me";
+plan 8;
 
-done-testing;
+my $p  = Point.new(10, 20);
+my $z  = PointZ.new(10, 20, 30);
+my $m  = PointM.new(10, 20, 30);
+my $zm = PointZM.new(10, 20, 30, 40);
+
+is        from-wkb($p.wkb(byteorder => wkbNDR)), $p,                                                                                                'from-wkb point be';
+is        from-wkb($p.wkb(byteorder => wkbXDR)), $p,                                                                                                'from-wkb point le';
+my @points;
+@points.push: Point.new(1,2);
+@points.push: Point.new(3,4);
+
+my $ls = LineString.new(points => @points);
+
+is        from-wkb($ls.wkb(byteorder=>wkbNDR)),  $ls,                                                                                               'from-wkb linestring be';
+is        from-wkb($ls.wkb(byteorder=>wkbXDR)),  $ls,                                                                                               'from-wkb linestring le';
+
+my @pointsZ;
+@pointsZ.push: PointZ.new(1, 2, 11);
+@pointsZ.push: PointZ.new(3, 4, 12);
+
+my $lsz = LineStringZ.new(points => @pointsZ);
+is        from-wkb($lsz.wkb(byteorder=>wkbNDR)), $lsz,                                                                                             'from-wkb linestringz be';
+is        from-wkb($lsz.wkb(byteorder=>wkbXDR)), $lsz,                                                                                             'from-wkb linestringz le';
+
+my $lr = LinearRing.new(points => @points);
+my $py = Polygon.new(rings => @($lr));
+is        from-wkb($py.wkb(byteorder=>wkbNDR)),  $py,                                                                                             'from-wkb polygon be';
+is        from-wkb($py.wkb(byteorder=>wkbXDR)),  $py,                                                                                             'from-wkb polygon le';

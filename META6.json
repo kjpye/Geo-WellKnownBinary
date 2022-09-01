@@ -16,10 +16,10 @@
   },
   "resources": [
   ],
-  "source-url": "",
+  "source-url": "https://github.com/kjpye/Geo-WellKnownBinary.git",
   "tags": [
   ],
   "test-depends": [
   ],
-  "version": "0.0.1"
+  "version": "0.1.0"
 }

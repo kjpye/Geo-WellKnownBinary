@@ -1,4 +1,6 @@
 Revision history for Geo-WellKnownBinary
 
 {{$NEXT}}
+
+0.1.0  2022-09-01T10:48:33+10:00
     - Initial version -- moved from Geo::Geometry

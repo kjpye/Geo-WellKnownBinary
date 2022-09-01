@@ -1,0 +1,12 @@
+=begin pod
+=TITLE Geo::WellKnownBinary
+
+=head1 Geo::WellKnownBinary
+
+The C<Geo::WellKnownBinary> module contains a single function:
+
+=head2 from-wkb
+
+C<from-wkb> takes a single C<Buf> parameter, and returns a single C<Geo::Geometry> object corresponding to the wkb specification, or a C<Failure> if the contents of the Buff cannot be interpreted as a geometry object.
+
+=end pod
