@@ -232,7 +232,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbPolyhedralSurface {
             my @polygons;
-            my $num-polygons = $buff.read-uint32($buff, $offset, $endian);
+            my $num-polygons = $buff.read-uint32($offset, $endian);
             for ^$num-polygons {
                 @polygons.push: wkb-get-polygon($buff, $offset, $endian);
             }
@@ -240,7 +240,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbPolyhedralSurfaceZ {
             my @polygons;
-            my $num-polygons = $buff.read-uint32($buff, $offset, $endian);
+            my $num-polygons = $buff.read-uint32($offset, $endian);
             for ^$num-polygons {
                 @polygons.push: wkb-get-polygonz($buff, $offset, $endian);
             }
@@ -248,7 +248,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbPolyhedralSurfaceM {
             my @polygons;
-            my $num-polygons = $buff.read-uint32($buff, $offset, $endian);
+            my $num-polygons = $buff.read-uint32($offset, $endian);
             for ^$num-polygons {
                 @polygons.push: wkb-get-polygonm($buff, $offset, $endian);
             }
@@ -256,7 +256,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbPolyhedralSurfaceZM {
             my @polygons;
-            my $num-polygons = $buff.read-uint32($buff, $offset, $endian);
+            my $num-polygons = $buff.read-uint32($offset, $endian);
             for ^$num-polygons {
                 @polygons.push: wkb-get-polygonzm($buff, $offset, $endian);
             }
@@ -264,7 +264,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbTIN {
             my @polygons;
-            my $num-polygons = $buff.read-uint32($buff, $offset, $endian);
+            my $num-polygons = $buff.read-uint32($offset, $endian);
             for ^$num-polygons {
                 @polygons.push: wkb-get-polygon($buff, $offset, $endian);
             }
@@ -272,7 +272,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbTINZ {
             my @polygons;
-            my $num-polygons = $buff.read-uint32($buff, $offset, $endian);
+            my $num-polygons = $buff.read-uint32($offset, $endian);
             for ^$num-polygons {
                 @polygons.push: wkb-get-polygonz($buff, $offset, $endian);
             }
@@ -280,7 +280,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbTINM {
             my @polygons;
-            my $num-polygons = $buff.read-uint32($buff, $offset, $endian);
+            my $num-polygons = $buff.read-uint32($offset, $endian);
             for ^$num-polygons {
                 @polygons.push: wkb-get-polygonm($buff, $offset, $endian);
             }
@@ -288,7 +288,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbTINZM {
             my @polygons;
-            my $num-polygons = $buff.read-uint32($buff, $offset, $endian);
+            my $num-polygons = $buff.read-uint32($offset, $endian);
             for ^$num-polygons {
                 @polygons.push: wkb-get-polygonzm($buff, $offset, $endian);
             }
@@ -296,7 +296,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbMultiPoint {
             my @points;
-            my $num-points = $buff.read-uint32($buff, $offset, $endian);
+            my $num-points = $buff.read-uint32($offset, $endian);
             for ^$num-points {
                 @points.push: wkb-get-point($buff, $offset, $endian);
             }
@@ -304,7 +304,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbMultiPointZ {
             my @points;
-            my $num-points = $buff.read-uint32($buff, $offset, $endian);
+            my $num-points = $buff.read-uint32($offset, $endian);
             for ^$num-points {
                 @points.push: wkb-get-pointz($buff, $offset, $endian);
             }
@@ -312,7 +312,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbMultiPointM {
             my @points;
-            my $num-points = $buff.read-uint32($buff, $offset, $endian);
+            my $num-points = $buff.read-uint32($offset, $endian);
             for ^$num-points {
                 @points.push: wkb-get-pointm($buff, $offset, $endian);
             }
@@ -320,7 +320,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbMultiPointZM {
             my @points;
-            my $num-points = $buff.read-uint32($buff, $offset, $endian);
+            my $num-points = $buff.read-uint32($offset, $endian);
             for ^$num-points {
                 @points.push: wkb-get-pointzm($buff, $offset, $endian);
             }
@@ -328,7 +328,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbMultiLineString {
             my @lines;
-            my $num-lines = $buff.read-uint32($buff, $offset, $endian);
+            my $num-lines = $buff.read-uint32($offset, $endian);
             for ^$num-lines {
                 @lines.push: wkb-get-linestring($buff, $offset, $endian);
             }
@@ -336,7 +336,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbMultiLineStringZ {
             my @lines;
-            my $num-lines = $buff.read-uint32($buff, $offset, $endian);
+            my $num-lines = $buff.read-uint32($offset, $endian);
             for ^$num-lines {
                 @lines.push: wkb-get-linestringz($buff, $offset, $endian);
             }
@@ -344,15 +344,15 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbMultiLineStringM {
             my @lines;
-            my $num-lines = $buff.read-uint32($buff, $offset, $endian);
+            my $num-lines = $buff.read-uint32($offset, $endian);
             for ^$num-lines {
-                @lines.push: wkb-get-linestringm($buff, $offset, $endian);
+                @lines.push: wkb-get-linestringm($offset, $endian);
             }
             $geometry = MultiLineStringM.new(linestrings => @lines);
         }
         when wkbMultiLineStringZM {
             my @lines;
-            my $num-lines = $buff.read-uint32($buff, $offset, $endian);
+            my $num-lines = $buff.read-uint32($offset, $endian);
             for ^$num-lines {
                 @lines.push: wkb-get-linestringzm($buff, $offset, $endian);
             }
@@ -360,7 +360,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbMultiPolygon {
             my @polygons;
-            my $num-polygons = $buff.read-uint32($buff, $offset, $endian);
+            my $num-polygons = $buff.read-uint32($offset, $endian);
             for ^$num-polygons {
                 @polygons.push: wkb-get-polygon($buff, $offset, $endian);
             }
@@ -368,7 +368,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbMultiPolygonZ {
             my @polygons;
-            my $num-polygons = $buff.read-uint32($buff, $offset, $endian);
+            my $num-polygons = $buff.read-uint32($offset, $endian);
             for ^$num-polygons {
                 @polygons.push: wkb-get-polygonz($buff, $offset, $endian);
             }
@@ -376,7 +376,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbMultiPolygonM {
             my @polygons;
-            my $num-polygons = $buff.read-uint32($buff, $offset, $endian);
+            my $num-polygons = $buff.read-uint32($offset, $endian);
             for ^$num-polygons {
                 @polygons.push: wkb-get-polygonm($buff, $offset, $endian);
             }
@@ -384,7 +384,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbMultiPolygonZM {
             my @polygons;
-            my $num-polygons = $buff.read-uint32($buff, $offset, $endian);
+            my $num-polygons = $buff.read-uint32($offset, $endian);
             for ^$num-polygons {
                 @polygons.push: wkb-get-polygonzm($buff, $offset, $endian);
             }
@@ -392,7 +392,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbGeometryCollection {
             my @geometries;
-            my $num-geometries = $buff.read-uint32($buff, $offset, $endian);
+            my $num-geometries = $buff.read-uint32($offset, $endian);
             for ^$num-geometries {
                 @geometries.push: wkb-read-geometry($buff, $offset, $endian);
             }
@@ -400,7 +400,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbGeometryCollectionZ {
             my @geometries;
-            my $num-geometries = $buff.read-uint32($buff, $offset, $endian);
+            my $num-geometries = $buff.read-uint32($offset, $endian);
             for ^$num-geometries {
                 @geometries.push: wkb-read-geometry($buff, $offset, $endian);
             }
@@ -408,7 +408,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbGeometryCollectionM {
             my @geometries;
-            my $num-geometries = $buff.read-uint32($buff, $offset, $endian);
+            my $num-geometries = $buff.read-uint32($offset, $endian);
             for ^$num-geometries {
                 @geometries.push: wkb-read-geometry($buff, $offset, $endian);
             }
@@ -416,7 +416,7 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
         }
         when wkbGeometryCollectionZM {
             my @geometries;
-            my $num-geometries = $buff.read-uint32($buff, $offset, $endian);
+            my $num-geometries = $buff.read-uint32($offset, $endian);
             for ^$num-geometries {
                 @geometries.push: wkb-read-geometry($buff, $offset, $endian);
             }
@@ -430,9 +430,9 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
 our sub from-wkb(Buf $buff) is export {
     my $length = $buff.elems;
     my $byteorder = $buff[0] ?? wkbNDR !! wkbXDR;
-    my $endian = $byteorder == wkbNDR ?? BigEndian !! LittleEndian;
+    my $endian = $byteorder == wkbNDR ?? LittleEndian !! BigEndian;
     my $offset = 1;
-    my $geometry = wkb-read-geometry($buff, $offset, $endian);
+    my $geometry = wkb-read-geometry $buff, $offset, $endian;
     fail "from-wkb: buffer too short" if $offset > $length;
     $geometry;
 }
