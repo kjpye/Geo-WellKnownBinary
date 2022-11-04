@@ -4,33 +4,61 @@ use lib 'lib';
 use Geo::Geometry;
 use Geo::WellKnownBinary;
 
-plan 8;
+plan 12;
 
 my $p  = Point.new(10, 20);
 my $z  = PointZ.new(10, 20, 30);
 my $m  = PointM.new(10, 20, 30);
 my $zm = PointZM.new(10, 20, 30, 40);
 
-is        from-wkb($p.wkb(byteorder => wkbNDR)), $p,                                                                                                'from-wkb point be';
-is        from-wkb($p.wkb(byteorder => wkbXDR)), $p,                                                                                                'from-wkb point le';
+is        from-wkb($p.wkb(byteorder => wkbNDR)), $p,   'from-wkb point be';
+is        from-wkb($p.wkb(byteorder => wkbXDR)), $p,   'from-wkb point le';
 my @points;
 @points.push: Point.new(1,2);
 @points.push: Point.new(3,4);
 
 my $ls = LineString.new(points => @points);
 
-is        from-wkb($ls.wkb(byteorder=>wkbNDR)),  $ls,                                                                                               'from-wkb linestring be';
-is        from-wkb($ls.wkb(byteorder=>wkbXDR)),  $ls,                                                                                               'from-wkb linestring le';
+is        from-wkb($ls.wkb(byteorder=>wkbNDR)),  $ls,  'from-wkb linestring be';
+is        from-wkb($ls.wkb(byteorder=>wkbXDR)),  $ls,  'from-wkb linestring le';
 
 my @pointsZ;
 @pointsZ.push: PointZ.new(1, 2, 11);
 @pointsZ.push: PointZ.new(3, 4, 12);
 
 my $lsz = LineStringZ.new(points => @pointsZ);
-is        from-wkb($lsz.wkb(byteorder=>wkbNDR)), $lsz,                                                                                             'from-wkb linestringz be';
-is        from-wkb($lsz.wkb(byteorder=>wkbXDR)), $lsz,                                                                                             'from-wkb linestringz le';
+is        from-wkb($lsz.wkb(byteorder=>wkbNDR)), $lsz, 'from-wkb linestringz be';
+is        from-wkb($lsz.wkb(byteorder=>wkbXDR)), $lsz, 'from-wkb linestringz le';
 
 my $lr = LinearRing.new(points => @points);
 my $py = Polygon.new(rings => @($lr));
-is        from-wkb($py.wkb(byteorder=>wkbNDR)),  $py,                                                                                             'from-wkb polygon be';
-is        from-wkb($py.wkb(byteorder=>wkbXDR)),  $py,                                                                                             'from-wkb polygon le';
+is        from-wkb($py.wkb(byteorder=>wkbNDR)),  $py,  'from-wkb polygon be';
+is        from-wkb($py.wkb(byteorder=>wkbXDR)),  $py,  'from-wkb polygon le';
+
+# The following tests are on real objects from real applications. At the moment they are all
+# output from st_astext and st_asbinary functions from PostGis; but others are welcomed.
+# The st_astext output needs to be massaged to generate object creation code; the alternative
+# would be to use from-wkt, but that would introduce a test dependency on Geo::WellKnownText
+# and I'm trying to avoid that here.
+
+my $rd = Buf.new(('0105000000010000000102000000040000005b711bf5b5176240cfc1747381ad42c02a991e62a01762407f587e8281ad42c02e4d05fa8d1762406d554eb281ad42c0b525e5e18d17624045ef9fb281ad42c0'.comb: /../).map({"0x{$_}".Int}));
+my $rd2 = MultiLineString.new(linestrings => Array[LineString].new(LineString.new(points => Array[Point].new(Point.new(x => 144.74096160278245e0, y => -37.35551303101567e0), Point.new(x => 144.73832803703527e0, y => -37.35551482362006e0), Point.new(x => 144.73608113322683e0, y => -37.355520523308634e0), Point.new(x => 144.7360696292432e0, y => -37.35552056130704e0)))));
+
+is-deeply from-wkb($rd), $rd2, "from Vicmap road database";
+
+my $maxnegnum = Buf.new(255,255,255,255,255,255,239,255).read-num64(0);
+
+my $bld = Buf.new(('01be0b00000100000001bb0b00000100000005000000c3f5285c1a3e1141d7a3703d35de2a410000000000000000ffffffffffffefff9a999999353e114190c2f5a855de2a410000000000000000ffffffffffffefff5c8fc2f5563e1141ec51b89e4ede2a410000000000000000ffffffffffffefff295c8fc23b3e114185eb51382ede2a410000000000000000ffffffffffffefffc3f5285c1a3e1141d7a3703d35de2a410000000000000000ffffffffffffefff'.comb: /../).map({"0x{$_}".Int}));
+my $bld2 = MultiPolygonZM.new(polygons => Array[PolygonZM].new(PolygonZM.new(rings => Array[LinearRingZM].new(LinearRingZM.new(points => Array[PointZM].new(PointZM.new(282502.59, 880410.62, 0, $maxnegnum), PointZM.new(282509.4, 880426.8300000001, 0, $maxnegnum), PointZM.new(282517.74, 880423.31, 0, $maxnegnum), PointZM.new(282510.94, 880407.11, 0, $maxnegnum), PointZM.new(282502.59, 880410.62, 0, $maxnegnum)))))));
+
+is-deeply from-wkb($bld), $bld2, "from GBOS building database";
+
+my $abld = Buf.new(('0101000000865ad3bce3fd61402410afeb17fc43c0'.comb: /../).map({"0x{$_}".Int}));
+my $abld2 = Point.new(143.93405, -39.969480000000004);
+
+is-deeply from-wkb($abld), $abld2, "from GA buildingpoints table";
+
+my $jty = Buf.new(('01010000001084640113546140609604a8a9c741c0'.comb: /../).map({"0x{$_}".Int}));
+my $jty2 = Point.new(138.62732000000005, -35.559864999999945);
+
+is-deeply from-wkb($jty), $jty2, "from SA jetties table";
