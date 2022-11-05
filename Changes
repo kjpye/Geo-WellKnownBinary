@@ -2,12 +2,14 @@ Revision history for Geo-WellKnownBinary
 
 {{$NEXT}}
 
-0.1.5  2022-10-17T16:55:04+11:00
-    - Fix endianness
+0.1.6  2022-11-05T13:35:52+11:00
     - Correctly interpret multi-geometries due to misunderstanding of standard
     - fix some method calls which looked like subroutine calls
     - added new tests from real, live data
     - remove temporary variables to streamline code
+
+0.1.5  2022-10-17T16:55:04+11:00
+    - Fix endianness
     
 0.1.4  2022-09-01T11:36:46+10:00
     - Fix generation of README.md

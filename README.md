@@ -18,5 +18,5 @@ from-wkb
 TODO
 ----
 
-Many more tests are required. At the moment the tests are limited to fairly simple cases. Tests are definitely needed for polygons with holes (i.e. with those specifying more than one ring), and for multi-geometries with more than a single instance. But any additional test points will be gratefully received, especially is they are based on real data.
+Many more tests are required. At the moment the tests are limited to fairly simple cases. Tests are definitely needed for polygons with holes (i.e. with those specifying more than one ring), and for multi-geometries with more than a single instance. But any additional test points will be gratefully received, especially if they are based on real data.
 
