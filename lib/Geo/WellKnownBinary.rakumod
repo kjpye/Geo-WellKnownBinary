@@ -90,26 +90,6 @@ sub wkb-get-polygonzm($buff, $offset is rw, $endian) {
     PolygonZM.new(rings => ((^$num-rings).map: {wkb-get-linearringzm($buff, $offset, $endian)}));
 }
 
-sub wkb-get-triangle($buff, $offset is rw, $endian) {
-    my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
-    Triangle.new(rings => ((^$num-rings).map: {wkb-get-linearring($buff, $offset, $endian)}));
-}
-
-sub wkb-get-trianglez($buff, $offset is rw, $endian) {
-    my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
-    TriangleZ.new(rings => ((^$num-rings).map: {wkb-get-linearringz($buff, $offset, $endian)}));
-}
-
-sub wkb-get-trianglem($buff, $offset is rw, $endian) {
-    my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
-    TriangleM.new(rings => ((^$num-rings).map: {wkb-get-linearringm($buff, $offset, $endian)}));
-}
-
-sub wkb-get-trianglezm($buff, $offset is rw, $endian) {
-    my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
-    TriangleZM.new(rings => ((^$num-rings).map: {wkb-get-linearringzm($buff, $offset, $endian)}));
-}
-
 sub wkb-read-geometry($buff, $offset is rw, $endian) {
     my $geometry;
     my $geometry-type = $buff.read-uint32($offset, $endian); $offset += 4;
@@ -155,16 +135,20 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
             $geometry = wkb-get-polygonzm($buff, $offset, $endian);
         }
         when wkbTriangle {
-            $geometry = wkb-get-triangle($buff, $offset, $endian);
+            my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
+            $geometry = Triangle.new(rings => ((^$num-rings).map: {wkb-get-linearring($buff, $offset, $endian)}));
         }
         when wkbTriangleZ {
-            $geometry = wkb-get-trianglez($buff, $offset, $endian);
+            my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
+            $geometry = TriangleZ.new(rings => ((^$num-rings).map: {wkb-get-linearringz($buff, $offset, $endian)}));
         }
         when wkbTriangleM {
-            $geometry = wkb-get-trianglem($buff, $offset, $endian);
+            my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
+            $geometry = TriangleM.new(rings => ((^$num-rings).map: {wkb-get-linearringm($buff, $offset, $endian)}));
         }
         when wkbTriangleZM {
-            $geometry = wkb-get-trianglezm($buff, $offset, $endian);
+            my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
+            $geometry = TriangleZM.new(rings => ((^$num-rings).map: {wkb-get-linearringzm($buff, $offset, $endian)}));
         }
         when wkbPolyhedralSurface {
             my $num-polygons = $buff.read-uint32($offset, $endian); $offset += 4;
@@ -268,11 +252,10 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
 }
     
 sub read-wkb(Buf $buff, $offset is rw) {
-    my $length = $buff.elems;
     my $byteorder = $buff[$offset++] ?? wkbNDR !! wkbXDR;
     my $endian = $byteorder == wkbNDR ?? LittleEndian !! BigEndian;
     my $geometry = wkb-read-geometry $buff, $offset, $endian;
-    fail "from-wkb: buffer too short" if $offset > $length;
+    fail "from-wkb: buffer too short" if $offset > $buff.elems;
     $geometry;
 }
 
