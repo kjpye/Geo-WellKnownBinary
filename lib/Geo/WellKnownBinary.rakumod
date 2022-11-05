@@ -32,146 +32,82 @@ sub wkb-get-pointzm($buff, $offset is rw, $endian) {
 
 sub wkb-get-linearring($buff, $offset is rw, $endian) {
     my $num-points = $buff.read-uint32($offset, $endian); $offset += 4;
-    my @points;
-    for ^$num-points {
-        @points.push: wkb-get-point($buff, $offset, $endian);
-    }
-    LinearRing.new(points => @points);
+    LinearRing.new(points => ((^$num-points).map: {wkb-get-point($buff, $offset, $endian)}));
 }
 
 sub wkb-get-linearringz($buff, $offset is rw, $endian) {
     my $num-points = $buff.read-uint32($offset, $endian); $offset += 4;
-    my @points;
-    for ^$num-points {
-        @points.push: wkb-get-pointz($buff, $offset, $endian);
-    }
-    LinearRingZ.new(points => @points);
+    LinearRingZ.new(points => ((^$num-points).map: {wkb-get-pointz($buff, $offset, $endian)}));
 }
 
 sub wkb-get-linearringm($buff, $offset is rw, $endian) {
     my $num-points = $buff.read-uint32($offset, $endian); $offset += 4;
-    my @points;
-    for ^$num-points {
-        @points.push: wkb-get-pointm($buff, $offset, $endian);
-    }
-    LinearRingM.new(points => @points);
+    LinearRingM.new(points => ((^$num-points).map: {wkb-get-pointm($buff, $offset, $endian)}));
 }
 
 sub wkb-get-linearringzm($buff, $offset is rw, $endian) {
     my $num-points = $buff.read-uint32($offset, $endian); $offset += 4;
-    my @points;
-    for ^$num-points {
-        @points.push: wkb-get-pointzm($buff, $offset, $endian);
-    }
-    LinearRingZM.new(points => @points);
+    LinearRingZM.new(points => ((^$num-points).map: {wkb-get-pointzm($buff, $offset, $endian)}));
 }
 
 sub wkb-get-linestring($buff, $offset is rw, $endian) {
-    my @points;
     my $num-points = $buff.read-uint32($offset, $endian); $offset += 4;
-    for ^$num-points {
-        @points.push: wkb-get-point($buff, $offset, $endian);
-    }
-    LineString.new(points => @points);
+    LineString.new(points => ((^$num-points).map: {wkb-get-point($buff, $offset, $endian)}));
 }
 
 sub wkb-get-linestringz($buff, $offset is rw, $endian) {
-    my @points;
     my $num-points = $buff.read-uint32($offset, $endian); $offset += 4;
-    for ^$num-points {
-        @points.push: wkb-get-pointz($buff, $offset, $endian);
-    }
-    LineStringZ.new(points => @points);
+    LineStringZ.new(points => ((^$num-points).map: {wkb-get-pointz($buff, $offset, $endian)}));
 }
 
 sub wkb-get-linestringm($buff, $offset is rw, $endian) {
-    my @points;
     my $num-points = $buff.read-uint32($offset, $endian); $offset += 4;
-    for ^$num-points {
-        @points.push: wkb-get-pointm($buff, $offset, $endian);
-    }
-    LineStringM.new(points => @points);
+    LineStringM.new(points => ((^$num-points).map: {wkb-get-pointm($buff, $offset, $endian)}));
 }
 
 sub wkb-get-linestringzm($buff, $offset is rw, $endian) {
-    my @points;
     my $num-points = $buff.read-uint32($offset, $endian); $offset += 4;
-    for ^$num-points {
-        @points.push: wkb-get-pointzm($buff, $offset, $endian);
-    }
-    LineStringZM.new(points => @points);
+    LineStringZM.new(points => ((^$num-points).map: {wkb-get-pointzm($buff, $offset, $endian)}));
 }
 
 sub wkb-get-polygon($buff, $offset is rw, $endian) {
-    my @rings;
     my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
-    for ^$num-rings {
-        @rings.push: wkb-get-linearring($buff, $offset, $endian);
-    }
-    Polygon.new(rings => @rings);
+    Polygon.new(rings => ((^$num-rings).map: {wkb-get-linearring($buff, $offset, $endian)}));
 }
 
 sub wkb-get-polygonz($buff, $offset is rw, $endian) {
-    my @rings;
     my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
-    for ^$num-rings {
-        @rings.push: wkb-get-linearringz($buff, $offset, $endian);
-    }
-    PolygonZ.new(rings => @rings);
+    PolygonZ.new(rings => ((^$num-rings).map: {wkb-get-linearringz($buff, $offset, $endian)}));
 }
 
 sub wkb-get-polygonm($buff, $offset is rw, $endian) {
-    my @rings;
     my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
-    for ^$num-rings {
-        @rings.push: wkb-get-linearringm($buff, $offset, $endian);
-    }
-    PolygonM.new(rings => @rings);
+    PolygonM.new(rings => ((^$num-rings).map: {wkb-get-linearringm($buff, $offset, $endian)}));
 }
 
 sub wkb-get-polygonzm($buff, $offset is rw, $endian) {
-    my @rings;
     my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
-    for ^$num-rings {
-        @rings.push: wkb-get-linearringzm($buff, $offset, $endian);
-    }
-    PolygonZM.new(rings => @rings);
+    PolygonZM.new(rings => ((^$num-rings).map: {wkb-get-linearringzm($buff, $offset, $endian)}));
 }
 
 sub wkb-get-triangle($buff, $offset is rw, $endian) {
-    my @rings;
     my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
-    for ^$num-rings {
-        @rings.push: wkb-get-linearring($buff, $offset, $endian);
-    }
-    Triangle.new(rings => @rings);
+    Triangle.new(rings => ((^$num-rings).map: {wkb-get-linearring($buff, $offset, $endian)}));
 }
 
 sub wkb-get-trianglez($buff, $offset is rw, $endian) {
-    my @rings;
     my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
-    for ^$num-rings {
-        @rings.push: wkb-get-linearringz($buff, $offset, $endian);
-    }
-    TriangleZ.new(rings => @rings);
+    TriangleZ.new(rings => ((^$num-rings).map: {wkb-get-linearringz($buff, $offset, $endian)}));
 }
 
 sub wkb-get-trianglem($buff, $offset is rw, $endian) {
-    my @rings;
     my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
-    for ^$num-rings {
-        @rings.push: wkb-get-linearringm($buff, $offset, $endian);
-    }
-    TriangleM.new(rings => @rings);
+    TriangleM.new(rings => ((^$num-rings).map: {wkb-get-linearringm($buff, $offset, $endian)}));
 }
 
 sub wkb-get-trianglezm($buff, $offset is rw, $endian) {
-    my @rings;
     my $num-rings = $buff.read-uint32($offset, $endian); $offset += 4;
-    for ^$num-rings {
-        @rings.push: wkb-get-linearringzm($buff, $offset, $endian);
-    }
-    TriangleZM.new(rings => @rings);
+    TriangleZM.new(rings => ((^$num-rings).map: {wkb-get-linearringzm($buff, $offset, $endian)}));
 }
 
 sub wkb-read-geometry($buff, $offset is rw, $endian) {
@@ -231,196 +167,100 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
             $geometry = wkb-get-trianglezm($buff, $offset, $endian);
         }
         when wkbPolyhedralSurface {
-            my @polygons;
             my $num-polygons = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-polygons {
-                @polygons.push: read-wkb($buff, $offset);
-            }
-            $geometry = PolyhedralSurface.new(polygons => @polygons);
+            $geometry = PolyhedralSurface.new(polygons => ((^$num-polygons).map: {wkb-get-polygon($buff, $offset, $endian)}));
         }
         when wkbPolyhedralSurfaceZ {
-            my @polygons;
             my $num-polygons = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-polygons {
-                @polygons.push: read-wkb($buff, $offset);
-            }
-            $geometry = PolyhedralSurfaceZ.new(polygons => @polygons);
+            $geometry = PolyhedralSurfaceZ.new(polygons => ((^$num-polygons).map: {wkb-get-polygonz($buff, $offset, $endian)}));
         }
         when wkbPolyhedralSurfaceM {
-            my @polygons;
             my $num-polygons = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-polygons {
-                @polygons.push: read-wkb($buff, $offset);
-            }
-            $geometry = PolyhedralSurfaceM.new(polygons => @polygons);
+            $geometry = PolyhedralSurfaceM.new(polygons => ((^$num-polygons).map: {wkb-get-polygonm($buff, $offset, $endian)}));
         }
         when wkbPolyhedralSurfaceZM {
-            my @polygons;
             my $num-polygons = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-polygons {
-                @polygons.push: read-wkb($buff, $offset);
-            }
-            $geometry = PolyhedralSurfaceZM.new(polygons => @polygons);
+            $geometry = PolyhedralSurfaceZM.new(polygons => ((^$num-polygons).map: {wkb-get-polygonzm($buff, $offset, $endian)}));
         }
         when wkbTIN {
-            my @polygons;
             my $num-polygons = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-polygons {
-                @polygons.push: read-wkb($buff, $offset);
-            }
-            $geometry = TIN.new(polygons => @polygons);
+            $geometry = TIN.new(polygons => ((^$num-polygons).map: {wkb-get-polygon($buff, $offset, $endian)}));
         }
         when wkbTINZ {
-            my @polygons;
             my $num-polygons = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-polygons {
-                @polygons.push: read-wkb($buff, $offset);
-            }
-            $geometry = TINZ.new(polygons => @polygons);
+            $geometry = TINZ.new(polygons => ((^$num-polygons).map: {wkb-get-polygonz($buff, $offset, $endian)}));
         }
         when wkbTINM {
-            my @polygons;
             my $num-polygons = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-polygons {
-                @polygons.push: read-wkb($buff, $offset);
-            }
-            $geometry = TINM.new(polygons => @polygons);
+            $geometry = TINM.new(polygons => ((^$num-polygons).map: {wkb-get-polygonm($buff, $offset, $endian)}));
         }
         when wkbTINZM {
-            my @polygons;
             my $num-polygons = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-polygons {
-                @polygons.push: read-wkb($buff, $offset);
-            }
-            $geometry = TINZM.new(polygons => @polygons);
+            $geometry = TINZM.new(polygons => ((^$num-polygons).map: {wkb-get-polygonzm($buff, $offset, $endian)}));
         }
         when wkbMultiPoint {
-            my @points;
             my $num-points = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-points {
-                @points.push: read-wkb($buff, $offset);
-            }
-            $geometry = MultiPoint.new(points => @points);
+            $geometry = MultiPoint.new(polygons => ((^$num-points).map: {wkb-get-point($buff, $offset, $endian)}));
         }
         when wkbMultiPointZ {
-            my @points;
             my $num-points = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-points {
-                @points.push: read-wkb($buff, $offset);
-            }
-            $geometry = MultiPointZ.new(points => @points);
+            $geometry = MultiPointZ.new(polygons => ((^$num-points).map: {wkb-get-pointz($buff, $offset, $endian)}));
         }
         when wkbMultiPointM {
-            my @points;
             my $num-points = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-points {
-                @points.push: read-wkb($buff, $offset);
-            }
-            $geometry = MultiPointM.new(points => @points);
+            $geometry = MultiPointM.new(polygons => ((^$num-points).map: {wkb-get-pointm($buff, $offset, $endian)}));
         }
         when wkbMultiPointZM {
-            my @points;
             my $num-points = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-points {
-                @points.push: read-wkb($buff, $offset);
-            }
-            $geometry = MultiPointZM.new(points => @points);
+            $geometry = MultiPoint.newZM(polygons => ((^$num-points).map: {wkb-get-pointzm($buff, $offset, $endian)}));
         }
         when wkbMultiLineString {
-            my @lines;
             my $num-lines = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-lines {
-                @lines.push: read-wkb($buff, $offset);
-            }
-            $geometry = MultiLineString.new(linestrings => @lines);
+            $geometry = MultiLineString.new(linestrings => ((^$num-lines).map: {read-wkb($buff, $offset)}));
         }
         when wkbMultiLineStringZ {
-            my @lines;
             my $num-lines = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-lines {
-                @lines.push: read-wkb($buff, $offset);
-            }
-            $geometry = MultiLineStringZ.new(linestrings => @lines);
+            $geometry = MultiLineStringZ.new(linestrings => ((^$num-lines).map: {read-wkb($buff, $offset)}));
         }
         when wkbMultiLineStringM {
-            my @lines;
             my $num-lines = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-lines {
-                @lines.push: read-wkb($buff, $offset);
-            }
-            $geometry = MultiLineStringM.new(linestrings => @lines);
+            $geometry = MultiLineStringM.new(linestrings => ((^$num-lines).map: {read-wkb($buff, $offset)}));
         }
         when wkbMultiLineStringZM {
-            my @lines;
             my $num-lines = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-lines {
-                @lines.push: read-wkb($buff, $offset);
-            }
-            $geometry = MultiLineStringZM.new(linestrings => @lines);
+            $geometry = MultiLineStringZM.new(linestrings => ((^$num-lines).map: {read-wkb($buff, $offset)}));
         }
         when wkbMultiPolygon {
-            my @polygons;
             my $num-polygons = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-polygons {
-                @polygons.push: read-wkb($buff, $offset);
-            }
-            $geometry = MultiPolygon.new(polygons => @polygons);
+            $geometry = MultiPolygon.new(polygons => ((^$num-polygons).map: {read-wkb($buff, $offset)}));
         }
         when wkbMultiPolygonZ {
-            my @polygons;
             my $num-polygons = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-polygons {
-                @polygons.push: read-wkb($buff, $offset);
-            }
-            $geometry = MultiPolygonZ.new(polygons => @polygons);
+            $geometry = MultiPolygonZ.new(polygons => ((^$num-polygons).map: {read-wkb($buff, $offset)}));
         }
         when wkbMultiPolygonM {
-            my @polygons;
             my $num-polygons = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-polygons {
-                @polygons.push: read-wkb($buff, $offset);
-            }
-            $geometry = MultiPolygonM.new(polygons => @polygons);
+            $geometry = MultiPolygonM.new(polygons => ((^$num-polygons).map: {read-wkb($buff, $offset)}));
         }
         when wkbMultiPolygonZM {
-            my @polygons;
             my $num-polygons = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-polygons {
-                @polygons.push: read-wkb($buff, $offset);
-            }
-            $geometry = MultiPolygonZM.new(polygons => @polygons);
+            $geometry = MultiPolygonZM.new(polygons => ((^$num-polygons).map: {read-wkb($buff, $offset)}));
         }
         when wkbGeometryCollection {
-            my @geometries;
             my $num-geometries = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-geometries {
-                @geometries.push: read-wkb($buff, $offset);
-            }
-            $geometry = GeometryCollection.new(geometries => @geometries);
+            $geometry = GeometryCollection.new(geometries => ((^$num-geometries).map: {read-wkb($buff, $offset)}));
         }
         when wkbGeometryCollectionZ {
-            my @geometries;
             my $num-geometries = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-geometries {
-                @geometries.push: read-wkb($buff, $offset);
-            }
-            $geometry = GeometryCollectionZ.new(geometries => @geometries);
+            $geometry = GeometryCollectionZ.new(geometries => ((^$num-geometries).map: {read-wkb($buff, $offset)}));
         }
         when wkbGeometryCollectionM {
-            my @geometries;
             my $num-geometries = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-geometries {
-                @geometries.push: read-wkb($buff, $offset);
-            }
-            $geometry = GeometryCollectionM.new(geometries => @geometries);
+            $geometry = GeometryCollectionM.new(geometries => ((^$num-geometries).map: {read-wkb($buff, $offset)}));
         }
         when wkbGeometryCollectionZM {
-            my @geometries;
             my $num-geometries = $buff.read-uint32($offset, $endian); $offset += 4;
-            for ^$num-geometries {
-                @geometries.push: read-wkb($buff, $offset);
-            }
-            $geometry = GeometryCollectionZM.new(geometries => @geometries);
+            $geometry = GeometryCollectionZM.new(geometries => ((^$num-geometries).map: {read-wkb($buff, $offset)}));
         }
         default { fail "Can't handle geometry type $geometry-type in from-wkb"; }
     }
@@ -429,9 +269,8 @@ sub wkb-read-geometry($buff, $offset is rw, $endian) {
     
 sub read-wkb(Buf $buff, $offset is rw) {
     my $length = $buff.elems;
-    my $byteorder = $buff[$offset] ?? wkbNDR !! wkbXDR;
+    my $byteorder = $buff[$offset++] ?? wkbNDR !! wkbXDR;
     my $endian = $byteorder == wkbNDR ?? LittleEndian !! BigEndian;
-    $offset++;
     my $geometry = wkb-read-geometry $buff, $offset, $endian;
     fail "from-wkb: buffer too short" if $offset > $length;
     $geometry;
